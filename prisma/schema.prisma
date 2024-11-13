@@ -5,7 +5,7 @@ generator client {
 datasource db {
     provider  = "postgresql"
     url       = env("POSTGRES_URL")
-    directUrl = env("POSTGRES_URL_NON_POOLING")
+    // directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
@@ -15,6 +15,7 @@ model User {
     email    String   @unique
     password String
     role     UserRole @default(USER)
+    verified DateTime
 
     provider String?
     providerId String?
@@ -43,7 +44,7 @@ model Product {
     imageUrl String
 
     ingredients Ingredient[]
-    items       ProductItem[]
+    items       ProductItem[] // вариация 5:15:25
 
     category   Category @relation(fields: [categoryId], references: [id])
     categoryId Int
@@ -61,8 +62,8 @@ model ProductItem {
 
     cartItems CartItem[]
 
-    product   Product @relation(fields: [prodcutId], references: [id])
-    prodcutId Int
+    product   Product @relation(fields: [productId], references: [id])
+    productId Int
 }
 
 model Ingredient {
