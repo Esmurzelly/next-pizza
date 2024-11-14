@@ -44,7 +44,7 @@ model Product {
     imageUrl String
 
     ingredients Ingredient[]
-    items       ProductItem[] // вариация 5:15:25
+    items       ProductItem[] // вариация
 
     category   Category @relation(fields: [categoryId], references: [id])
     categoryId Int
