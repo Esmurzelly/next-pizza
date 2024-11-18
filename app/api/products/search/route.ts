@@ -15,4 +15,4 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json(products);
-}; // 5:24:38
+};
