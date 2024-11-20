@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useClickAway } from 'react-use'
+import { useClickAway, useDebounce } from 'react-use'
 import Link from 'next/link'
 import { Api } from '@/services/api-client'
 import { Product } from '@prisma/client'
@@ -22,11 +22,29 @@ export const SearchInput = ({ className }: Props) => {
         setFocused(false)
     });
 
-    useEffect(() => {
-        Api.products.search(searchQuery).then(items => {
-            setProducts(items);
-        });
-    }, [searchQuery]);
+    useDebounce(() => {
+        async () => {
+            try {
+                const response = await Api.products.search(searchQuery);
+                setProducts(response);      
+            } catch (error) {
+                console.log(error);
+            };
+        };
+
+        // Api.products.search(searchQuery).then(items => {
+        //     setProducts(items);
+        // });
+    },
+        250,
+        [searchQuery]
+    );
+
+    const onClickItem = () => {
+        setFocused(false);
+        setSearchQuery('');
+        setProducts([]);
+    }
 
     return (
         <>
@@ -43,14 +61,17 @@ export const SearchInput = ({ className }: Props) => {
                     onFocus={() => setFocused(true)}
                 />
 
-                {/* 5:51:43 */}
-
-                <div className={cn(
+                {products.length > 0 && <div className={cn(
                     'absolute w-full bg-white top-14 rounded-xl py-2 shadow-md transition-all duration-200 invisible opacity-0 z-30',
                     focused && 'visible top-12 opacity-100'
                 )}>
                     {products.map(product => (
-                        <Link key={product.id} href={`/product/${product.id}`} className='flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-primary/10'>
+                        <Link
+                            key={product.id}
+                            href={`/product/${product.id}`}
+                            className='flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-primary/10'
+                            onClick={onClickItem}
+                        >
                             <img
                                 className='rounded-sm w-8 h-8'
                                 src={product.imageUrl}
@@ -61,7 +82,7 @@ export const SearchInput = ({ className }: Props) => {
                             </div>
                         </Link>
                     ))}
-                </div>
+                </div>}
             </div>
         </>
     )
