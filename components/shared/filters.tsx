@@ -13,7 +13,6 @@ type Props = {
 }
 
 export const Filters = ({ className }: Props) => {
-
     const { ingredients, loading } = useIngredients();
     const filters = useFilters();
 
