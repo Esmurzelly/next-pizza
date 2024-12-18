@@ -70,7 +70,7 @@ export const Filters = ({ className }: Props) => {
                     max={1000}
                     step={10}
                     onValueChange={updatePrices}
-                    value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 0]}
+                    value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 1000]}
                 />
             </div>
 

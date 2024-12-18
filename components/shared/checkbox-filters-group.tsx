@@ -35,8 +35,7 @@ export const CheckboxFiltersGroup = ({
 }: Props) => {
     const [showAll, setShowAll] = useState(false);
     const [searchValue, setSearchValue] = useState('');
-
-
+    
     const onChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value)
     }
@@ -45,7 +44,7 @@ export const CheckboxFiltersGroup = ({
         ? items.filter(item => item.text.toLowerCase().includes(searchValue.toLowerCase()))
         : (defaultItems || items).slice(0, limit);
 
-    if(loading) {
+    if (loading) {
         return <div className={className}>
             <p className="font-bold mb-3">{title}</p>
 
@@ -54,7 +53,7 @@ export const CheckboxFiltersGroup = ({
                     <Skeleton key={index} className='mb-5 h-6 rounded-[8px]' />
                 ))
             }
-                    <Skeleton className='w-28 mb-5 h-6 rounded-[8px]' />
+            <Skeleton className='w-28 mb-5 h-6 rounded-[8px]' />
 
         </div>
     }
