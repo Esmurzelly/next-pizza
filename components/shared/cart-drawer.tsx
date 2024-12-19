@@ -17,6 +17,7 @@ import { ArrowRight } from 'lucide-react';
 import { CartItemDrawer } from './cart-item-drawer';
 import { getCartItemDetails } from '@/lib';
 import { useCartStore } from '@/store/cart';
+import { PizzaSize, PizzaType } from '@/constants/pizza';
 
 
 type Props = {
@@ -25,11 +26,9 @@ type Props = {
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, children }: Props) => {
-    const [totalAmount, fetchCartItems, items] = useCartStore(state => [
-        state.totalAmount,
-        state.fetchCartItems,
-        state.items,
-    ]);
+    const totalAmount = useCartStore(state => state.totalAmount);
+    const items = useCartStore(state => state.items);
+    const fetchCartItems = useCartStore(state => state.fetchCartItems);
 
     useEffect(() => {
         fetchCartItems();
@@ -58,7 +57,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className
                                     quantity={item.quantity}
                                     details={
                                         item.pizzaSize && item.pizzaType
-                                        ? getCartItemDetails(item.ingredients, item.pizzaType, item.pizzaSize)
+                                        ? getCartItemDetails(item.ingredients, item.pizzaType as PizzaType, item.pizzaSize as PizzaSize)
                                         : ''
                                     }
                                 />
